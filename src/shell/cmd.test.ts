@@ -1,48 +1,49 @@
-import { CmdShell, ICommandHandler } from "./cmd";
+import { CmdShell, type ICommandHandler } from "./cmd";
+import { expect, describe, it, spyOn } from "bun:test";
 
 describe("CmdShell", () => {
-    it("simple command", () => {
+  it("simple command", () => {
+    var handler = {
+      test1() {},
+      test2() {},
+    };
 
-        var handler = {
-            test1() { },
-            test2() { }
-        };
+    spyOn(handler, "test1");
+    spyOn(handler, "test2");
 
-        jest.spyOn(handler, "test1");
-        jest.spyOn(handler, "test2");
+    var sut = new CmdShell();
+    sut.command("test1", handler.test1);
 
-        var sut = new CmdShell();
-        sut.command("test1", handler.test1);
+    sut.execute("test1");
 
-        sut.execute("test1");
+    expect(handler.test1).toHaveBeenCalled();
+    expect(handler.test2).not.toHaveBeenCalled();
+  });
 
-        expect(handler.test1).toHaveBeenCalled();
-        expect(handler.test2).not.toHaveBeenCalled();
-    });
+  it("unknown command", () => {
+    var sut = new CmdShell();
+    sut.execute("test1");
+  });
 
-    it("unknown command", () => {   
-        var sut = new CmdShell();
-        sut.execute("test1");
-    });
+  it("object handler", () => {
+    var handler = {
+      canHandle: function (input: string): boolean {
+        return input === "test2";
+      },
+      handle: function (input: string) {},
+    };
 
-    it("object handler", () => {   
+    spyOn(handler, "handle");
 
-        var handler = {
-            canHandle: function(input: string) : boolean { return input === "test2"; },
-            handle: function (input: string)  { }
-        };
+    var sut = new CmdShell();
+    sut.command(handler);
 
-        jest.spyOn(handler, "handle");
+    sut.execute("test1");
 
-        var sut = new CmdShell();
-        sut.command(handler);
+    expect(handler.handle).not.toHaveBeenCalled();
 
-        sut.execute("test1");
+    sut.execute("test2");
 
-        expect(handler.handle).not.toHaveBeenCalled();
-
-        sut.execute("test2");
-
-        expect(handler.handle).toHaveBeenCalled();
-    });
-})
+    expect(handler.handle).toHaveBeenCalled();
+  });
+});

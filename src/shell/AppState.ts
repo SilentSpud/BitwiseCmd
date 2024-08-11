@@ -1,23 +1,23 @@
-import log from 'loglevel';
+import log from "loglevel";
 
 export const APP_VERSION = 9;
 
 export type PersistedAppData = {
-    emphasizeBytes: boolean;
-    uiTheme: string;
-    version: number | null;
-    debugMode: boolean | null;
-    pageVisistsCount: number;
-    donationClicked: boolean;
-    annotateTypes: boolean;
-    dimExtrBits: boolean;
-    cookieDisclaimerHidden: boolean
-}
+  emphasizeBytes: boolean;
+  uiTheme: string;
+  version: number | null;
+  debugMode: boolean | null;
+  pageVisistsCount: number;
+  donationClicked: boolean;
+  annotateTypes: boolean;
+  dimExtrBits: boolean;
+  cookieDisclaimerHidden: boolean;
+};
 
 export type CommandResultView = {
-    key: number,
-    input: string,
-    view: ViewFactory
+  key: number;
+  input: string;
+  view: ViewFactory;
 };
 
 export type AppStateChangeHandler = (state: AppState) => void;
@@ -25,130 +25,131 @@ export type AppStateChangeHandler = (state: AppState) => void;
 type ViewFactory = () => JSX.Element;
 
 export default class AppState {
+  version: number = APP_VERSION;
+  emphasizeBytes: boolean;
+  debugMode: boolean = false;
+  uiTheme: string;
+  changeHandlers: AppStateChangeHandler[] = [];
+  commandResults: CommandResultView[] = [];
+  persistedVersion: number;
+  wasOldVersion: boolean;
+  env: string;
+  pageVisitsCount: number;
+  donationClicked: boolean;
+  showSettings: boolean = false;
+  annotateTypes: boolean = false;
+  dimExtraBits: boolean = false;
+  cookieDisclaimerHidden: boolean = false;
 
-    version: number = APP_VERSION;
-    emphasizeBytes: boolean;
-    debugMode: boolean = false;
-    uiTheme: string;
-    changeHandlers: AppStateChangeHandler[] = [];
-    commandResults: CommandResultView[] = [];
-    persistedVersion: number;
-    wasOldVersion: boolean;
-    env: string;
-    pageVisitsCount: number;
-    donationClicked: boolean;
-    showSettings: boolean = false;
-    annotateTypes: boolean = false;
-    dimExtraBits: boolean = false;
-    cookieDisclaimerHidden: boolean = false;
+  constructor(persistData: PersistedAppData, env: string) {
+    this.env = env;
 
-    constructor(persistData: PersistedAppData, env: string) {
+    this.uiTheme = persistData.uiTheme;
+    this.emphasizeBytes = !!persistData.emphasizeBytes;
+    this.persistedVersion = persistData.version || 0.1;
+    this.wasOldVersion = persistData.version != null && this.version > this.persistedVersion;
+    this.debugMode = persistData.debugMode === true;
+    this.pageVisitsCount = persistData.pageVisistsCount || 0;
+    this.donationClicked = persistData.donationClicked;
+    this.annotateTypes = !!persistData.annotateTypes;
+    this.dimExtraBits = !!persistData.dimExtrBits;
+    this.cookieDisclaimerHidden = !!persistData.cookieDisclaimerHidden;
+  }
 
-        this.env = env;
+  addCommandResult(input: string, view: ViewFactory) {
+    const key = generateKey();
+    this.commandResults.unshift({
+      key,
+      input,
+      view,
+    });
+    log.debug(`command result added: ${input}`);
+    this.triggerChanged();
+  }
 
-        this.uiTheme = persistData.uiTheme;
-        this.emphasizeBytes = !!persistData.emphasizeBytes;
-        this.persistedVersion = persistData.version || 0.1;
-        this.wasOldVersion = persistData.version != null && this.version > this.persistedVersion;
-        this.debugMode = persistData.debugMode === true;
-        this.pageVisitsCount = persistData.pageVisistsCount || 0;
-        this.donationClicked = persistData.donationClicked;
-        this.annotateTypes = !!persistData.annotateTypes;
-        this.dimExtraBits = !!persistData.dimExtrBits;
-        this.cookieDisclaimerHidden = !!persistData.cookieDisclaimerHidden
-    }
+  clearCommandResults() {
+    this.commandResults = [];
+    this.triggerChanged();
+  }
 
-    addCommandResult(input: string, view: ViewFactory) {
-        const key = generateKey();
-        this.commandResults.unshift({ key, input, view });
-        log.debug(`command result added: ${input}`);
-        this.triggerChanged();
-    }
+  removeResult(index: number) {
+    if (index < 0 || index >= this.commandResults.length) return;
 
-    clearCommandResults() {
-        this.commandResults = [];
-        this.triggerChanged();
-    }
+    this.commandResults.splice(index, 1);
+    this.triggerChanged();
+  }
 
-    removeResult(index: number) {
-        if (index < 0 || index >= this.commandResults.length)
-            return;
+  toggleEmphasizeBytes(value?: boolean) {
+    this.emphasizeBytes = value != null ? value : !this.emphasizeBytes;
+    this.triggerChanged();
+  }
 
-        this.commandResults.splice(index, 1);
-        this.triggerChanged();
-    }
+  onChange(handler: AppStateChangeHandler) {
+    this.changeHandlers.push(handler);
+  }
 
-    toggleEmphasizeBytes(value?: boolean) {
-        this.emphasizeBytes = value != null ? value : !this.emphasizeBytes;
-        this.triggerChanged();
-    }
+  triggerChanged() {
+    this.changeHandlers.forEach((h) => h(this));
+  }
 
-    onChange(handler: AppStateChangeHandler) {
-        this.changeHandlers.push(handler);
-    }
+  setUiTheme(theme: string) {
+    this.uiTheme = theme;
+    this.triggerChanged();
+  }
 
-    triggerChanged() {
-        this.changeHandlers.forEach(h => h(this));
-    }
+  toggleDebugMode() {
+    this.debugMode = !this.debugMode;
+    this.triggerChanged();
+  }
 
-    setUiTheme(theme: string) {
-        this.uiTheme = theme;
-        this.triggerChanged();
-    }
+  toggleShowSettings() {
+    this.showSettings = !this.showSettings;
+    this.triggerChanged();
+  }
 
-    toggleDebugMode() {
-        this.debugMode = !this.debugMode;
-        this.triggerChanged();
-    }
+  toggleAnnotateTypes(value?: boolean) {
+    this.annotateTypes = value != null ? value : !this.annotateTypes;
+    this.triggerChanged();
+  }
 
-    toggleShowSettings() {
-        this.showSettings = !this.showSettings;
-        this.triggerChanged();
-    }
+  toggleDimExtrBits() {
+    this.dimExtraBits = !this.dimExtraBits;
+    this.triggerChanged();
+  }
 
-    toggleAnnotateTypes(value?: boolean) {
-        this.annotateTypes = value != null ? value : !this.annotateTypes;
-        this.triggerChanged();
-    }
+  registerVisit() {
+    this.pageVisitsCount++;
+    this.triggerChanged();
+  }
 
-    toggleDimExtrBits() {
-        this.dimExtraBits = !this.dimExtraBits;
-        this.triggerChanged();
-    }
+  onDonationClicked(): boolean {
+    if (this.donationClicked === true) return false;
 
-    registerVisit() {
-        this.pageVisitsCount++;
-        this.triggerChanged();
-    }
+    this.donationClicked = true;
+    this.triggerChanged();
+    return true;
+  }
 
-    onDonationClicked(): boolean {
-        if (this.donationClicked === true) return false;
+  setCookieDisclaimerHidden(value: boolean) {
+    this.cookieDisclaimerHidden = value;
+    this.triggerChanged();
+  }
 
-        this.donationClicked = true;
-        this.triggerChanged();
-        return true;
-    }
-
-    setCookieDisclaimerHidden(value: boolean) {
-        this.cookieDisclaimerHidden = value;
-        this.triggerChanged();
-    }
-
-    getPersistData(): PersistedAppData {
-        return {
-            emphasizeBytes: this.emphasizeBytes,
-            uiTheme: this.uiTheme,
-            version: this.version,
-            debugMode: this.debugMode,
-            pageVisistsCount: this.pageVisitsCount,
-            donationClicked: this.donationClicked,
-            annotateTypes: this.annotateTypes,
-            dimExtrBits: this.dimExtraBits,
-            cookieDisclaimerHidden: this.cookieDisclaimerHidden
-        }
-    }
-};
+  getPersistData(): PersistedAppData {
+    return {
+      emphasizeBytes: this.emphasizeBytes,
+      uiTheme: this.uiTheme,
+      version: this.version,
+      debugMode: this.debugMode,
+      pageVisistsCount: this.pageVisitsCount,
+      donationClicked: this.donationClicked,
+      annotateTypes: this.annotateTypes,
+      dimExtrBits: this.dimExtraBits,
+      cookieDisclaimerHidden: this.cookieDisclaimerHidden,
+    };
+  }
+}
 
 function generateKey(): number {
-    return Math.ceil(Math.random() * 10000000) ^ Date.now(); // Because why the hell not...
+  return Math.ceil(Math.random() * 10000000) ^ Date.now(); // Because why the hell not...
 }

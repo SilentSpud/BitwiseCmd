@@ -1,54 +1,54 @@
 .vpc-view .description {
-    vertical-align: middle;
-    text-align: right;
+  vertical-align: middle;
+  text-align: right;
 }
 
 .vpc-view {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
-.vpc-view  {
-    margin-bottom: 20px;
+.vpc-view {
+  margin-bottom: 20px;
 }
 
 .vpc-view .host-part {
-    color: coral;
+  color: coral;
 }
 
 .vpc-view .subnet-part {
-    color:mediumseagreen;
+  color: mediumseagreen;
 }
 
 .vpc-view .decimal-part {
-    margin-left: 10px;
+  margin-left: 10px;
 }
 
 .vpc-view .part {
-    border-bottom: solid 1px;
+  border-bottom: solid 1px;
 }
 
 .vpc-view .address-space button {
-    margin: 0;
+  margin: 0;
 }
 
 .vpc-view .address-space {
-    font-size: 1.2em;
-    vertical-align: middle;
+  font-size: 1.2em;
+  vertical-align: middle;
 }
 
 .vpc-view .address-space-label {
-    font-size: 0.8em;
-    vertical-align: center;
+  font-size: 0.8em;
+  vertical-align: center;
 }
 
 .vpc-view button {
-    margin:0 3px;
+  margin: 0 3px;
 }
 
 .vpc-view .address-container {
-    margin: 20px 0;
+  margin: 20px 0;
 }
 
 .vpc-view .tooltip-icon {
-    margin-left: 5px;
+  margin-left: 5px;
 }
