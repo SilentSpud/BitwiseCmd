@@ -1,0 +1,13 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "bun",
+			"label": "bun: start",
+			"script": "bun start",
+			"problemMatcher": ["$tsc-watch"],
+			"detail": "Start Bun server",
+			"isBackground": true
+		}
+	]
+}

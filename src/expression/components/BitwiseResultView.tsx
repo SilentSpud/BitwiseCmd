@@ -130,10 +130,11 @@ class ExpressionElementTableRow extends React.Component<ExpressionElementRowProp
 
   getControlButtons(): React.ReactNode {
     const buttons = [];
+    const key = this.scalar.value.toString();
 
     if (this.scalar.value.value < 0)
       buttons.push(
-        <IconWithToolTip icon={faInfoCircle}>
+        <IconWithToolTip key={key} icon={faInfoCircle}>
           <div className="accent1 tooltip-header">Two's Complement</div>
           <p>
             This is a negative number. It's binary representation is <u>inverted</u> using <strong>Two's Complement</strong> operation.
@@ -148,7 +149,7 @@ class ExpressionElementTableRow extends React.Component<ExpressionElementRowProp
 
     if (!this.originalValue.isTheSame(this.scalar.value))
       buttons.push(
-        <button title="Undo all changes" className="undo" data-control="undo" onClick={() => this.undo()}>
+        <button key={key} title="Undo all changes" className="undo" data-control="undo" onClick={() => this.undo()}>
           <FontAwesomeIcon icon={faUndo} />
         </button>,
       );
