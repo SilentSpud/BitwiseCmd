@@ -4,6 +4,15 @@
   "private": true,
   "module": "src/index.tsx",
   "type": "module",
+  "scripts": {
+    "start": "bun --watch run scripts/serve.ts",
+    "build": "bun run scripts/build.ts",
+    "release": "node scripts/build.js && gh-pages -d build --message Release",
+    "deploy": "gh-pages -d build --message Release",
+    "test": "bun test",
+    "prettier": "prettier --write .",
+    "serve-build": "npx http-server ./build -p 3030"
+  },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
@@ -14,29 +23,16 @@
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@svgr/webpack": "^8.1.0",
-    "bfj": "^8.0.0",
-    "browserslist": "^4.23.3",
-    "camelcase": "^8.0.0",
     "eslint": "^9.9.0",
-    "identity-obj-proxy": "^3.0.0",
     "loglevel": "^1.9.1",
-    "mini-css-extract-plugin": "^2.9.0",
-    "prompts": "^2.4.2",
     "react": "^18.3.1",
-    "react-app-polyfill": "^3.0.0",
-    "react-dev-utils": "^12.0.1",
     "react-dom": "^18.3.1",
-    "react-refresh": "^0.14.2",
     "semver": "^7.6.3",
-    "tailwindcss": "^3.4.9",
-    "typescript": "^5.5.4",
     "uuid": "^10.0.0",
     "web-vitals": "^4.2.3"
   },
   "devDependencies": {
     "@happy-dom/global-registrator": "^14.12.3",
-    "@testing-library/dom": "^10.4.0",
-    "@testing-library/react": "^16.0.0",
     "@types/bun": "^1.1.6",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
@@ -48,26 +44,5 @@
   "trustedDependencies": [
     "core-js",
     "core-js-pure"
-  ],
-  "scripts": {
-    "start": "bun --watch run scripts/serve.ts",
-    "build": "bun run scripts/build.ts",
-    "release": "node scripts/build.js && gh-pages -d build --message Release",
-    "deploy": "gh-pages -d build --message Release",
-    "test": "bun test",
-    "prettier": "prettier --write .",
-    "serve-build": "npx http-server ./build -p 3030"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+  ]
 }
