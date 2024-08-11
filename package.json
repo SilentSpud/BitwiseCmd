@@ -50,7 +50,7 @@
     "core-js-pure"
   ],
   "scripts": {
-    "start": "node scripts/start.js",
+    "start": "bun --watch run scripts/serve.ts",
     "build": "bun run scripts/build.ts",
     "release": "node scripts/build.js && gh-pages -d build --message Release",
     "deploy": "gh-pages -d build --message Release",
