@@ -1,15 +1,15 @@
 import React from "react";
-import AppState from "../shell/AppState";
-import { CmdShell, type CommandInput, type CommandOptions } from "../shell/cmd";
-import ErrorResultView from "../shell/components/ErrorResultView";
+import AppState from "../../app/AppState";
+import { CmdShell, type CommandInput, type CommandOptions } from "../../app/cmd";
+import ErrorResultView from "../../app/components/ErrorResultView";
 import IpAddressView from "./components/IpAddressView";
 import ipAddressParser, { ParsingError, type ParsedIpObject } from "./ip-parser";
 import { IpAddress, IpAddressWithSubnetMask, SubnetCommand, VpcCommand } from "./models";
 import log from "loglevel";
 import SubnetView from "./components/SubnetView";
 import { createSubnetMaskIp } from "./subnet-utils";
-import { sendAnalyticsEvent } from "../shell/analytics";
-import TextResultView from "../shell/components/TextResultView";
+import { sendAnalyticsEvent } from "../../app/analytics";
+import TextResultView from "../../app/components/TextResultView";
 import VpcView from "./components/VpcView";
 
 const networkingAppModule = {

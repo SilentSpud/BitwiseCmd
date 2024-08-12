@@ -1,5 +1,5 @@
 import log from "loglevel";
-import hash from "../core/hash";
+import hash from "../console/core/hash";
 import AppState from "./AppState";
 import { type Env } from "./interfaces";
 import appStateStore from "./appStateStore";

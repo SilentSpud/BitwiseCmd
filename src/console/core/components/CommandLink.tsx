@@ -1,7 +1,7 @@
 import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import cmd from "../../shell/cmd";
+import cmd from "../../../app/cmd";
 
 type CommandLinkProps = {
   command?: string;

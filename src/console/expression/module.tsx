@@ -1,6 +1,6 @@
 import React from "react";
-import AppState from "../shell/AppState";
-import { CmdShell, type CommandInput } from "../shell/cmd";
+import AppState from "../../app/AppState";
+import { CmdShell, type CommandInput } from "../../app/cmd";
 import BitwiseResultView from "./components/BitwiseResultView";
 import { parser } from "./expression";
 

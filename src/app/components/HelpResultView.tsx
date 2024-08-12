@@ -1,7 +1,7 @@
 import React from "react";
-import CommandLink from "../../core/components/CommandLink";
+import CommandLink from "../../console/core/components/CommandLink";
 import "./HelpResultView.css";
-import { INT32_MAX_VALUE, INT32_MIN_VALUE } from "../../core/const";
+import { INT32_MAX_VALUE, INT32_MIN_VALUE } from "../../console/core/const";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleExclamation, faWarning } from "@fortawesome/free-solid-svg-icons";
 

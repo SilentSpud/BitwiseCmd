@@ -1,14 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import cmd, { type CommandInput } from "./shell/cmd";
-import AppRoot from "./shell/components/AppRoot";
+import cmd, { type CommandInput } from "./app/cmd";
+import AppRoot from "./app/components/AppRoot";
 import log from "loglevel";
 import "./index.css";
-import networkingAppModule from "./networking/module";
-import expressionAppModule from "./expression/module";
-import shellModule from "./shell/module";
-import bootstrapAppData from "./shell/startup";
-import UnknownInputResultView from "./shell/components/UnknownInputResultView";
+import networkingAppModule from "./console/networking/module";
+import expressionAppModule from "./console/expression/module";
+import shellModule from "./app/module";
+import bootstrapAppData from "./app/startup";
+import UnknownInputResultView from "./app/components/UnknownInputResultView";
 
 const appData = bootstrapAppData();
 
@@ -52,4 +52,4 @@ root.render(
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-//eportWebVitals();
+//reportWebVitals();

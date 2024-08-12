@@ -6,7 +6,7 @@ import IpAddressBinaryString from "./IpAddressBinaryString";
 import { IpAddress, IpAddressWithSubnetMask, VpcCommand } from "../models";
 import formatter from "../../core/formatter";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
-import IconWithToolTip from "../../shell/components/IconWithTooltip";
+import IconWithToolTip from "../../../app/components/IconWithTooltip";
 
 const MAX_NON_HOSTS_BITS = 30; // leave two bits for hosts min
 

@@ -23,6 +23,12 @@
     // Some stricter flags (disabled by default)
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noPropertyAccessFromIndexSignature": true
+    "noPropertyAccessFromIndexSignature": true,
+
+    // Aliases
+    "paths": {
+      "@console/*": ["./src/console/*"],
+      "@app/*": ["./src/app/*"]
+    }
   }
 }

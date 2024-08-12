@@ -5,7 +5,7 @@ import AppState, { type CommandResultView } from "../AppState";
 import cmd from "../cmd";
 import log from "loglevel";
 import DebugIndicators from "./DebugIndicators";
-import hash from "../../core/hash";
+import hash from "../../console/core/hash";
 import TopLinks from "./TopLinks";
 import SettingsPane from "./SettingsPane";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

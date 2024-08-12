@@ -9,7 +9,7 @@ import { Integer } from "../../core/Integer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle, faTriangleExclamation, faUndo } from "@fortawesome/free-solid-svg-icons";
 import loglevel from "loglevel";
-import IconWithToolTip from "../../shell/components/IconWithTooltip";
+import IconWithToolTip from "../../../app/components/IconWithTooltip";
 
 type BitwiseResultViewProps = {
   expression: Expression;

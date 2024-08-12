@@ -1,4 +1,4 @@
-import is from "../core/is";
+import is from "../console/core/is";
 import log from "loglevel";
 
 export type CommandInput = {
